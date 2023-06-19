@@ -3,7 +3,7 @@ import css from 'components/ContactForm/ContactForm.module.css';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts } from 'redux/selectors';
-import { formSubmit } from 'redux/contacts/contactsSlice';
+import { addContact } from 'redux/operation/operation';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
@@ -41,7 +41,7 @@ export const ContactForm = () => {
 
     //   иначе отправляем экшен с данными в глобальный стэйт контактов
 
-    dispatch(formSubmit({ name, number, id: nanoid() }));
+    dispatch(addContact({ name, number, id: nanoid() }));
 
     reset();
   };

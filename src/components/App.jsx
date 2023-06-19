@@ -2,11 +2,21 @@ import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Filter } from 'components/Filter/Filter';
 import { ContactsList } from 'components/ContactsList/ContactsList';
 import css from 'components/App.module.css';
-import { useSelector } from 'react-redux';
-import { selectContacts } from 'redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts, selectError, selectLoading } from 'redux/selectors';
+import { fetchContacts } from 'redux/operation/operation';
+import { useEffect } from 'react';
 
 export const App = () => {
   const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
+  const isLoading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   const isContacts = contacts.length > 0;
 
   return (
@@ -18,6 +28,7 @@ export const App = () => {
       {isContacts && <Filter />}
 
       {isContacts && <ContactsList />}
+      {isLoading && !error && <b>Request in progress...</b>}
     </div>
   );
 };
